@@ -1,14 +1,21 @@
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
+const bcrypt =
+  require("bcryptjs");
 
-exports.hashPassword = async (password) => {
-  return bcrypt.hash(password, 10);
-};
+exports.hashPassword =
+  async (password) => {
+    return await bcrypt.hash(
+      password,
+      10
+    );
+  };
 
-exports.comparePassword = async (password, hashedPassword) => {
-  return bcrypt.compare(password, hashedPassword);
-};
-
-exports.findUserByEmail = async (email) => {
-  return User.findOne({ email });
-};
+exports.comparePassword =
+  async (
+    password,
+    hash
+  ) => {
+    return await bcrypt.compare(
+      password,
+      hash
+    );
+  };

@@ -1,18 +1,24 @@
-require('dotenv').config();
-const http = require('http');
-const app = require('./app');
-const connectDB = require('./config/db');
+require("dotenv").config();
 
-const PORT = process.env.PORT || 5000;
+console.log("EMAIL_USER:", process.env.EMAIL_USER);
+console.log("EMAIL_PASS:", process.env.EMAIL_PASS ? "Loaded" : "Missing");
 
-connectDB()
-  .then(() => {
-    const server = http.createServer(app);
-    server.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
+const app = require("./app");
+const connectDB = require("./config/db");
+
+// Initialize server
+const startServer = async () => {
+  try {
+    await connectDB();
+    
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+      console.log(`Server Running On Port ${PORT}`);
     });
-  })
-  .catch((error) => {
-    console.error('Failed to connect to database', error);
+  } catch (error) {
+    console.error("Failed to start server:", error);
     process.exit(1);
-  });
+  }
+};
+
+startServer();
